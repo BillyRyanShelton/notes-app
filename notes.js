@@ -1,4 +1,5 @@
 const fs = require('fs');
+const chalk = require('chalk');
 
 function getNotes(){
     return 'Your notes...';
@@ -24,6 +25,23 @@ const addNote = function(title, body){
     
 }
 
+
+const removeNote = function(title){
+    const notes = loadNotes();
+    let noteIndexToDelete;
+    for(let i = 0; i < notes.length;i++){
+        if(notes[i].title === title){
+            noteIndexToDelete =  i;
+            notes.splice(noteIndexToDelete,1);
+            saveNotes(notes);
+            console.log(chalk.bgGreen('Note Removed!'));
+            return
+            // i = notes.length;
+        }
+    } console.log(chalk.bgRed('No Note Removed!'));
+    
+}
+
 const loadNotes = function(){
     try{
         const dataBuffer = fs.readFileSync('notes.json');
@@ -41,5 +59,6 @@ const saveNotes = function(notes) {
 
 module.exports = {
     getNotes: getNotes,
-    addNote: addNote
+    addNote: addNote,
+    removeNote: removeNote,
 };
